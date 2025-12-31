@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Correzione Verifica: Integrali Definiti</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+
+    <style>
+        :root {
+            --primary-color: #4facfe;
+            --secondary-color: #00f2fe;
+            --accent-color: #ff5858;
+            --text-color: #333;
+            --bg-light: #f9f9f9;
+            --shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header h1 { margin: 0; font-size: 2.5rem; font-weight: 700; }
+        header p { font-size: 1.2rem; opacity: 0.9; margin-top: 10px; }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .tab-btn {
+            padding: 15px 30px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-btn:hover { background-color: #f0f0f0; color: var(--primary-color); }
+        .tab-btn.active { color: var(--primary-color); border-bottom: 3px solid var(--primary-color); }
+
+        /* Content */
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .tab-content { display: none; animation: fadeIn 0.5s; }
+        .tab-content.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Accordion (Exercises) */
+        .exercise-card {
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .exercise-header {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            transition: background 0.3s;
+        }
+
+        .exercise-header:hover { background: #f8fbff; }
+        
+        .exercise-title { font-weight: 700; font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
+        .badge { background: #eee; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; color: #555; }
+        
+        .icon-toggle {
+            transition: transform 0.3s;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+
+        .exercise-card.open .icon-toggle { transform: rotate(180deg); }
+
+        .solution-container {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s ease-out;
+            background: #fafafa;
+            border-top: 1px solid #eee;
+        }
+
+        .solution-content { padding: 25px; }
+
+        .step {
+            margin-bottom: 15px;
+            padding-left: 15px;
+            border-left: 3px solid #ddd;
+        }
+
+        .step-title { font-weight: bold; color: #444; margin-bottom: 5px; }
+        .final-res { 
+            background: #e3f2fd; 
+            padding: 15px; 
+            border-radius: 8px; 
+            border: 1px solid #bbdefb; 
+            margin-top: 15px; 
+            font-weight: bold;
+            color: #0d47a1;
+        }
+
+        /* Image handling */
+        .img-box {
+            text-align: center;
+            margin: 20px 0;
+            padding: 10px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .img-box img { max-width: 100%; height: auto; border-radius: 4px; }
+
+        /* Summary Table */
+        .summary-section { margin-top: 50px; }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: var(--shadow); }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #333; color: white; }
+        tr:hover { background-color: #f5f5f5; }
+
+        /* Quote */
+        .quote {
+            text-align: center;
+            margin: 40px 0;
+            font-style: italic;
+            color: #777;
+            padding: 20px;
+            border-top: 1px solid #eee;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Verifica Integrali Definiti</h1>
+    <p>Correzione interattiva e spiegazione passo-passo</p>
+</header>
+
+<div class="tabs">
+    <button class="tab-btn active" onclick="openTab('filaA')">Fila A</button>
+    <button class="tab-btn" onclick="openTab('filaB')">Fila B</button>
+</div>
+
+<div class="container">
+
+    <div id="filaA" class="tab-content active">
+        
+        <h2>Esercizio 1: Calcolo di Integrali</h2>
+        
+        <div class="exercise-card">
+            <div class="exercise-header" onclick="toggleSolution(this)">
+                <div class="exercise-title"><span class="badge">1.a</span> $\int_{0}^{2}\frac{x^{2}}{x^{3}+2}dx$</div>
+                <div class="icon-toggle">▼</div>
+            </div>
+            <div class="solution-container">
+                <div class="solution-content">
+                    <div class="step">
+                        <div class="step-title">Analisi</div>
+                        Notiamo che il numeratore $x^2$ è legato alla derivata del denominatore $x^3+2$. La derivata di $x^3+2$ è $3x^2$.
+                    </div>
+                    <div class="step">
+                        <div class="step-title">Risoluzione</div>
+                        Moltiplichiamo e dividiamo per 3 per ottenere la derivata esatta al numeratore:
+                        $$ \int_{0}^{2}\frac{x^{2}}{x^{3}+2}dx = \frac{1}{3}\int_{0}^{2}\frac{3x^{2}}{x^{3}+2}dx $$
+                        Questo è un integrale immediato del tipo $\int \frac{f'(x)}{f(x)}dx = \ln|f(x)|$:
+                        $$ = \left[ \frac{1}{3}\ln|x^3+2| \right]_{0}^{2} $$
+                    </div>
+                    <div class="step">
+                        <div class="step-title">Calcolo estremi</div>
+                        Sostituiamo $x=2$ e $x=0$:
+                        $$ \frac{1}{3}(\ln(2^3+2) - \ln(0^3+2)) = \frac{1}{3}(\ln 10 - \ln 2) $$
+                        Applicando le proprietà dei logaritmi ($\ln a - \ln b = \ln \frac{a}{b}$):
+                        $$ \frac{1}{3}\ln\left(\frac{10}{2}\right) = \frac{1}{3}\ln 5 $$
+                    </div>
+                    <div class="final-res">Soluzione: $\frac{1}{3}\ln 5$</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="exercise-card">
+            <div class="exercise-header" onclick="toggleSolution(this)">
+                <div class="exercise-title"><span class="badge">1.b</span> $\int_{3}^{4}\frac{1}{\sqrt{x-3}}dx$</div>
+                <div class="icon-toggle">▼</div>
+            </div>
+            <div class="solution-container">
+                <div class="solution-content">
+                    <div class="step">
+                        <div class="step-title">Riscrivere la funzione</div>
+                        Scriviamo la radice come potenza frazionaria negativa:
+                        $$ \int_{3}^{4} (x-3)^{-\frac{1}{2}} dx $$
+                    </div>
+                    <div class="step">
+                        <div class="step-title">Integrazione</div>
+                        Usiamo la regola della potenza $\int x^n dx = \frac{x^{n+1}}{n+1}$:
+                        $$ \left[ \frac{(x-3)^{-\frac{1}{2}+1}}{-\frac{1}{2}+1} \right]_{3}^{4} = \left[ \frac{(x-3)^{\frac{1}{2}}}{\frac{1}{2}} \right]_{3}^{4} = \left[ 2\sqrt{x-3} \right]_{3}^{4} $$
+                    </div>
+                    <div class="step">
+                        <div class="step-title">Calcolo estremi</div>
+                        $$ 2(\sqrt{4-3} - \sqrt{3-3}) = 2(\sqrt{1} - 0) = 2 $$
+                    </div>
+                    <div class="final-res">Soluzione: 2</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="exercise-card">
+            <div class="exercise-header" onclick="toggleSolution(this)">
+                <div class="exercise-title"><span class="badge">1.c</span> $\int_{0}^{1}x^{2}e^{x^{3}-1}dx$</div>
+                <div class="icon-toggle">▼</div>
+            </div>
+            <div class="solution-container">
+                <div class="solution-content">
+                    <div class="step">
+                        <div class="step-title">Metodo di Sostituzione</div>
+                        Poniamo $t = x^3 - 1$.
+                        Differenziamo: $dt = 3x^2 dx \Rightarrow x^2 dx = \frac{dt}{3}$.
+                    </div>
+                    <div class="step">
+                        <div class="step-title">Cambio degli estremi di integrazione</div>
+                        Se $x=0 \Rightarrow t = 0^3 - 1 = -1$.
+                        Se $x=1 \Rightarrow t = 1^3 - 1 = 0$.
+                    </div>
+                    <div class="step">
+                        <div class="step-title">Nuovo integrale</div>
+                        $$ \int_{-1}^{0} e^t \cdot \frac{dt}{3} = \frac{1}{3}\int_{-1}^{0} e^t dt $$
+                        $$ = \frac{1}{3} \left[ e^t \right]_{-1}^{0} $$
+                        $$ = \frac{1}{3} (e^0 - e^{-1}) = \frac{1}{3}\left(1 - \frac{1}{e}\right) $$
+                    </div>
+                    <div class="final-res">Soluzione: $\frac{1}{3}(1 - e^{-1})$ oppure $\frac{e-1}{3e}$</div>
+                </div>
+            </div>
+        </div>
+
+        <h2>Esercizio 2: Calcolo di Integrali</h2>
+
+        <div class="exercise-card">
+            <div class="exercise-header" onclick="toggleSolution(this)">
+                <div class="exercise-title"><span class="badge">2.a</span> $\int_{2}^{3}\frac{x}{\sqrt{x^{2}-2}}dx$</div>
+                <div class="icon-toggle">▼</div>
+            </div>
+            <div class="solution-container">
+                <div class="solution-content">
+                    <div class="step">
+                        <div class="step-title">Sostituzione</div>
+                        $t = x^2 - 2 \Rightarrow dt = 2x dx \Rightarrow x dx = \frac{dt}{2}$.
+                        Estremi: $x=2 \to t=2$; $x=3 \to t=7$.
+                    </div>
+                    <div class="step">
+                        $$ \int_{2}^{7} \frac{1}{\sqrt{t}} \frac{dt}{2} = \frac{1}{2} \int_{2}^{7} t^{-1/2} dt = \frac{1}{2} \left[ 2t^{1/2} \right]_2^7 = [\sqrt{t}]_2^7 $$
+                    </div>
+                    <div class="final-res">Soluzione: $\sqrt{7} - \sqrt{2}$</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="exercise-card">
+            <div class="exercise-header" onclick="toggleSolution(this)">
+                <div class="exercise-title"><span class="badge">2.b</span> $\int_{0}^{\pi}\frac{\sin x}{2+\cos x}dx$</div>
+                <div class="icon-toggle">▼</div>
+            </div>
+            <div class="solution-container">
+                <div class="solution-content">
+                    <div class="step">
+                        <div class="step-title">Osservazione</div>
+                        La derivata di $2+\cos x$ è $-\sin x$. Abbiamo $\sin x$ al numeratore.
+                        $$ -\int_{0}^{\pi}\frac{-\sin x}{2+\cos x}dx $$
+                    </div>
+                    <div class="step">
+                        $$ = - \left[ \ln|2+\cos x| \right]_{0}^{\pi} $$
+                        $$ = - (\ln(2+\cos \pi) - \ln(2+\cos 0)) $$
+                        $$ = - (\ln(2-1) - \ln(2+1)) = - (\ln 1 - \ln 3) = -(0 - \ln 3) $$
+                    </div>
+                    <div class="final-res">Soluzione: $\ln 3$</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="exercise-card">
+            <div class="exercise-header" onclick="toggleSolution(this)">
+                <div class="exercise-title"><span class="badge">2.c</span> $\int_{1}^{2}\frac{1+x^{2}}{x}dx$</div>
+                <div class="icon-toggle">▼</div>
+            </div>
+            <div class="solution-container">
+                <div class="solution-content">
+                    <div class="step">
+                        <div class="step-title">Separazione della frazione</div>
+                        Come richiesto, spezziamo la frazione:
+                        $$ \int_{1}^{2} \left( \frac{1}{x} + \frac{x^2}{x} \right) dx = \int_{1}^{2} \left( \frac{1}{x} + x \right) dx $$
+                    </div>
+                    <div class="step">
+                        <div class="step-title">Primitiva</div>
+                        $$ \left[ \ln|x| + \frac{x^2}{2} \right]_{1}^{2} $$
+                    </div>
+                    <div class="step">
+                        <div class="step-title">Calcolo</div>
+                        $$ (\ln 2 + \frac{4}{2}) - (\ln 1 + \frac{1}{2}) = \ln 2 + 2 - 0 - 0.5 $$
+                    </div>
+                    <div class="final-res">Soluzione: $\ln 2 + \frac{3}{2}$</div>
+                </div>
+            </div>
+        </div>
+
+        <h2>Esercizio 3, 4, 5: Problemi</h2>
+
+        <div class="exercise-card">
+            <div class="exercise-header" onclick="toggleSolution(this)">
+                <div class="exercise-title"><span class="badge">3</span> Teorema della Media: $y=(2x-1)^2$ in $[0; 2]$</div>
+                <div class="icon-toggle">▼</div>
+            </div>
+            <div class="solution-container">
+                <div class="solution-content">
+                    <div class="step">
+                        <div class="step-title">a. Valore Medio</div>
+                        La formula è $V_m = \frac{1}{b-a}\int_a^b f(x)dx$.
+                        Espandiamo la funzione: $f(x) = 4x^2 - 4x + 1$.
+                        $$ \int_0^2 (4x^2 - 4x + 1) dx = \left[ \frac{4x^3}{3} - 2x^2 + x \right]_0^2 $$
+                        $$ = (\frac{32}{3} - 8 + 2) - 0 = \frac{32}{3} - 6 = \frac{32-18}{3} = \frac{14}{3} $$
+                        $$ V_m = \frac{1}{2} \cdot \frac{14}{3} = \frac{7}{3} $$
+                    </div>
+                    <div class="step">
+                        <div class="step-title">b. Punto z</div>
+                        Cerchiamo $z \in [0,2]$ tale che $f(z) = V_m$.
+                        $$ (2z-1)^2 = \frac{7}{3} \Rightarrow 2z-1 = \pm\sqrt{\frac{7}{3}} $$
+                        $$ 2z = 1 \pm \sqrt{\frac{7}{3}} \Rightarrow z = \frac{1 \pm \sqrt{7/3}}{2} $$
+                        $z_1 \approx 1.26$ (Accettabile, interno a $[0,2]$).
+                        $z_2 \approx -0.26$ (Non accettabile).
+                    </div>
+                    <div class="final-res">Valore medio: $\frac{7}{3}$. Punto $z = \frac{3+\sqrt{21}}{6}$</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="exercise-card">
+            <div class="exercise-header" onclick="toggleSolution(this)">
+                <div class="exercise-title"><span class="badge">4</span> Area tra curve</div>
+                <div class="icon-toggle">▼</div>
+            </div>
+            <div class="solution-container">
+                <div class="solution-content">
+                    <div class="img-box">
+                        <img src="Esercizio_4.png" alt="Grafico dell'area tra parabola e retta">
+                        <p style="font-size:0.9em; color:#666;">Grafico della funzione fornita nel testo</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-title">1. Trovare l'equazione della retta</div>
+                        Passa per $A(-3,0)$ e $B(-1,4)$.
+                        Coefficiente angolare $m = \frac{4-0}{-1-(-3)} = \frac{4}{2} = 2$.
+                        Equazione: $y - 0 = 2(x+3) \Rightarrow y = 2x+6$.
+                    </div>
+                    <div class="step">
+                        <div class="step-title">2. Impostare l'integrale</div>
+                        La parabola (curva superiore) è $y = -2x^2 - 6x$.
+                        La retta (curva inferiore) è $y = 2x + 6$.
+                        Intervallo di integrazione: da $x_A = -3$ a $x_B = -1$.
+                        $$ Area = \int_{-3}^{-1} [(-2x^2 - 6x) - (2x + 6)] dx $$
+                        $$ = \int_{-3}^{-1} (-2x^2 - 8x - 6) dx $$
+                    </div>
+                    <div class="step">
+                        <div class="step-title">3. Calcolo</div>
+                        $$ \left[ -\frac{2x^3}{3} - 4x^2 - 6x \right]_{-3}^{-1} $$
+                        Sostituzione in -1: $\frac{2}{3} - 4 + 6 = \frac{8}{3}$.
+                        Sostituzione in -3: $-\frac{2(-27)}{3} - 4(9) - 6(-3) = 18 - 36 + 18 = 0$.
+                        Area = $\frac{8}{3} - 0$.
+                    </div>
+                    <div class="final-res">Area: $\frac{8}{3} \approx 2.67$</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="exercise-card">
+            <div class="exercise-header" onclick="toggleSolution(this)">
+                <div class="exercise-title"><span class="badge">5</span> Volume di rotazione</div>
+                <div class="icon-toggle">▼</div>
+            </div>
+            <div class="solution-container">
+                <div class="solution-content">
+                    <div class="step">
+                        <div class="step-title">Funzione e Formula</div>
+                        $f(x) = \sqrt{e^{2x}}$. Semplifichiamo: $f(x) = (e^{2x})^{1/2} = e^x$.
+                        Formula volume: $V = \pi \int_a^b [f(x)]^2 dx$.
+                    </div>
+                    <div class="step">
+                        <div class="step-title">Calcolo</div>
+                        $$ V = \pi \int_{0}^{3} (e^x)^2 dx = \pi \int_{0}^{3} e^{2x} dx $$
+                        $$ = \pi \left[ \frac{1}{2}e^{2x} \right]_0^3 $$
+                        $$ = \frac{\pi}{2} (e^6 - e^0) $$
+                    </div>
+                    <div class="final-res">Volume: $\frac{\pi}{2}(e^6 - 1)$</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="filaB" class="tab-content">
+        <h2>Esercizio 1: Calcolo di Integrali (Fila B)</h2>
+
+        <div class="exercise-card">
+            <div class="exercise-header" onclick="toggleSolution(this)">
+                <div class="exercise-title"><span class="badge">1.a</span> $\int_{0}^{1}\frac{x}{x^{2}+1}dx$</div>
+                <div class="icon-toggle">▼</div>
+            </div>
+            <div class="solution-container">
+                <div class="solution-content">
+                    <div class="step">
+                        Numeratore derivata del denominatore (manca un 2).
+                        $$ \frac{1}{2}\int_{0}^{1}\frac{2x}{x^{2}+1}dx = \frac{1}{2}[\ln(x^2+1)]_0^1 $$
+                        $$ = \frac{1}{2}(\ln 2 - \ln 1) = \frac{1}{2}\ln 2 $$
+                    </div>
+                    <div class="final-res">Soluzione: $\ln \sqrt{2}$</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="exercise-card">
+            <div class="exercise-header" onclick="toggleSolution(this)">
+                <div class="exercise-title"><span class="badge">1.b</span> $\int_{4}^{5}\frac{1}{\sqrt{x-4}}dx$</div>
+                <div class="icon-toggle">▼</div>
+            </div>
+            <div class="solution-container">
+                <div class="solution-content">
+                    <div class="step">
+                        $$ \int_{4}^{5} (x-4)^{-1/2} dx = \left[ 2\sqrt{x-4} \right]_4^5 $$
+                        $$ = 2(\sqrt{1} - \sqrt{0}) = 2 $$
+                    </div>
+                    <div class="final-res">Soluzione: 2</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="exercise-card">
+            <div class="exercise-header" onclick="toggleSolution(this)">
+                <div class="exercise-title"><span class="badge">1.c</span> $\int_{0}^{1}xe^{x^{2}}dx$</div>
+                <div class="icon-toggle">▼</div>
+            </div>
+            <div class="solution-container">
+                <div class="solution-content">
+                    <div class="step">
+                        Sostituzione: $t = x^2 \Rightarrow dt = 2x dx$.
+                        $$ \frac{1}{2} \int e^t dt = \frac{1}{2} [e^{x^2}]_0^1 $$
+                        $$ = \frac{1}{2} (e^1 - e^0) $$
+                    </div>
+                    <div class="final-res">Soluzione: $\frac{1}{2}(e-1)$</div>
+                </div>
+            </div>
+        </div>
+
+        <h2>Esercizio 2: Calcolo di Integrali (Fila B)</h2>
+
+        <div class="exercise-card">
+            <div class="exercise-header" onclick="toggleSolution(this)">
+                <div class="exercise-title"><span class="badge">2.a</span> $\int_{0}^{1}\frac{x}{\sqrt{x^{2}+1}}dx$</div>
+                <div class="icon-toggle">▼</div>
+            </div>
+            <div class="solution-container">
+                <div class="solution-content">
+                    <div class="step">
+                        Sostituzione immediata $t = x^2+1$.
+                        $$ \frac{1}{2} \int (x^2+1)^{-1/2} (2x) dx = [\sqrt{x^2+1}]_0^1 $$
+                        $$ = \sqrt{2} - \sqrt{1} $$
+                    </div>
+                    <div class="final-res">Soluzione: $\sqrt{2}-1$</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="exercise-card">
+            <div class="exercise-header" onclick="toggleSolution(this)">
+                <div class="exercise-title"><span class="badge">2.b</span> $\int_{0}^{\frac{\pi}{2}}\frac{\cos x}{1+\sin x}dx$</div>
+                <div class="icon-toggle">▼</div>
+            </div>
+            <div class="solution-container">
+                <div class="solution-content">
+                    <div class="step">
+                        Derivata di $1+\sin x$ è $\cos x$.
+                        $$ [\ln(1+\sin x)]_0^{\pi/2} $$
+                        $$ \ln(1+1) - \ln(1+0) = \ln 2 $$
+                    </div>
+                    <div class="final-res">Soluzione: $\ln 2$</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="exercise-card">
+            <div class="exercise-header" onclick="toggleSolution(this)">
+                <div class="exercise-title"><span class="badge">2.c</span> $\int_{1}^{2}\frac{x^{2}-1}{x}dx$</div>
+                <div class="icon-toggle">▼</div>
+            </div>
+            <div class="solution-container">
+                <div class="solution-content">
+                    <div class="step">
+                        Separazione frazione:
+                        $$ \int_{1}^{2} (x - \frac{1}{x}) dx $$
+                        $$ = [\frac{x^2}{2} - \ln|x|]_1^2 $$
+                        $$ (\frac{4}{2} - \ln 2) - (\frac{1}{2} - 0) = 2 - \ln 2 - 0.5 $$
+                    </div>
+                    <div class="final-res">Soluzione: $\frac{3}{2} - \ln 2$</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="quote">
+            Nota: Gli esercizi 3, 4 e 5 sono identici a quelli della Fila A. Fai riferimento alla scheda precedente per le soluzioni.
+        </div>
+    </div>
+
+    <div class="summary-section">
+        <h2>Riepilogo Soluzioni</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Es.</th>
+                    <th>Fila A - Soluzione</th>
+                    <th>Fila B - Soluzione</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>1.a</td><td>$\frac{1}{3}\ln 5$</td><td>$\frac{1}{2}\ln 2$</td></tr>
+                <tr><td>1.b</td><td>$2$</td><td>$2$</td></tr>
+                <tr><td>1.c</td><td>$\frac{1}{3}(1 - e^{-1})$</td><td>$\frac{1}{2}(e-1)$</td></tr>
+                <tr><td>2.a</td><td>$\sqrt{7} - \sqrt{2}$</td><td>$\sqrt{2}-1$</td></tr>
+                <tr><td>2.b</td><td>$\ln 3$</td><td>$\ln 2$</td></tr>
+                <tr><td>2.c</td><td>$\ln 2 + 1.5$</td><td>$1.5 - \ln 2$</td></tr>
+                <tr><td>3</td><td colspan="2">Valore Medio: $7/3$, $z = \frac{3+\sqrt{21}}{6}$</td></tr>
+                <tr><td>4</td><td colspan="2">Area: $8/3$</td></tr>
+                <tr><td>5</td><td colspan="2">Volume: $\frac{\pi}{2}(e^6 - 1)$</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="quote">
+        "Ogni volta che impariamo qualcosa di nuovo, noi stessi diventiamo qualcosa di nuovo." - Leo Buscaglia
+    </div>
+
+</div>
+
+<script>
+    function openTab(tabName) {
+        var i;
+        var x = document.getElementsByClassName("tab-content");
+        var buttons = document.getElementsByClassName("tab-btn");
+        
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+            x[i].classList.remove("active");
+        }
+        for (i = 0; i < buttons.length; i++) {
+            buttons[i].classList.remove("active");
+        }
+        
+        document.getElementById(tabName).style.display = "block";
+        document.getElementById(tabName).classList.add("active");
+        event.currentTarget.classList.add("active");
+    }
+
+    function toggleSolution(element) {
+        var card = element.parentElement;
+        var content = element.nextElementSibling;
+        
+        card.classList.toggle("open");
+        
+        if (content.style.maxHeight) {
+            content.style.maxHeight = null;
+        } else {
+            content.style.maxHeight = content.scrollHeight + "px";
+        }
+    }
+</script>
+
+</body>
+</html>
